@@ -1,6 +1,6 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
-import { ImPointRight } from "react-icons/im";
+// import { ImPointRight } from "react-icons/im";
 
 function AboutCard() {
   return (
@@ -8,33 +8,20 @@ function AboutCard() {
       <Card.Body>
         <blockquote className="blockquote mb-0">
           <p style={{ textAlign: "justify" }}>
-            Hi Everyone, I am <span className="purple">Soumyajit Behera </span>
-            from <span className="purple"> Bhubaneswar, India.</span>
-            <br /> I am a final year student pursuing an Integrated MSc (IMSc)
-            in Maths and Computing at BIT Mesra.
+            Hi Everyone, I am <span className="purple">Ayan Ahmad. </span>
+            <br /> I am a Second-year undergrad at <span className="purple">IIIT Allahabad</span> pursuing a Bachelor of Technology in Information Technology.
+             I am highly interested in algorithmic problem-solving and have a firm grasp in data structures and algorithms. In my one year of experience of practicing competitive programming,
+             I have climbed up to the Specialist at Codeforces ( Solved Over More than 600 problems ) and a 4🌟 at Codechef.
+            <br /> 
+            I am Web Development enthusiast and have made quite a few Projects in React Js and Firebase. I am currently learning more about MongoDB, Express, React, Node.
             <br />
-            Additionally, I am currently employed as a software developer at
-            Juspay.
-            <br />
-            <br />
-            Apart from coding, some other activities that I love to do!
+
           </p>
-          <ul>
-            <li className="about-activity">
-              <ImPointRight /> Playing Games
-            </li>
-            <li className="about-activity">
-              <ImPointRight /> Writing Tech Blogs
-            </li>
-            <li className="about-activity">
-              <ImPointRight /> Travelling
-            </li>
-          </ul>
 
           <p style={{ color: "rgb(155 126 172)" }}>
-            "Strive to build things that make a difference!"{" "}
+            "Everthing Thats kills Me, Makes Me feel Alive!"{" "}
           </p>
-          <footer className="blockquote-footer">Soumyajit</footer>
+          <footer className="blockquote-footer">Ayan</footer>
         </blockquote>
       </Card.Body>
     </Card>
