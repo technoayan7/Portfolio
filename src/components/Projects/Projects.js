@@ -5,7 +5,9 @@ import Particle from "../Particle";
 import editor from "../../Assets/Projects/codeEditor.png";
 import chatify from "../../Assets/Projects/chatify.png";
 import bitsOfCode from "../../Assets/Projects/blog.png";
-import tictac from "../../Assets/Projects/tictac.png";
+import tictac from "../../Assets/Projects/tictac.jpg";
+import FitHub from "../../Assets/Projects/fithub.jpg";
+import Objectdetection from "../../Assets/Projects/objectdetection.jpg";
 
 function Projects() {
   return (
@@ -48,7 +50,7 @@ function Projects() {
               title="Editor.io"
               description="Online code and markdown editor build with react.js. Online Editor which supports html, css, and js code with instant view of website. Online markdown editor for building README file which supports GFM, Custom Html tags with toolbar and instant preview.Both the editor supports auto save of work using Local Storage"
               ghLink="https://github.com/soumyajit4419/Editor.io"
-              demoLink="https://editor.soumya-jit.tech/"              
+              demoLink="https://editor.soumya-jit.tech/"
             />
           </Col>
 
@@ -60,6 +62,27 @@ function Projects() {
               description="Developed a Tic Tac Toe Game while I was Learning HTML, CSS, JavaScript."
               ghLink="https://github.com/technoayan7/Tic-Tac-Toe"
               demoLink="https://technoayan7.github.io/Tic-Tac-Toe/"
+            />
+          </Col>
+
+          <Col md={4} className="project-card">
+            <ProjectCard
+              imgPath={FitHub}
+              isBlog={false}
+              title="FitHub"
+              description="Developed a FitHub Exercise website using Rapid Api."
+              ghLink="https://github.com/technoayan7/FitHub"
+              demoLink="https://fit-hub.vercel.app/"
+            />
+          </Col>
+          <Col md={4} className="project-card">
+            <ProjectCard
+              imgPath={Objectdetection}
+              isBlog={false}
+              title="FitHub"
+              description="Python implementation of the paper: Efficient Image Dehazing with Boundary Constraint and Contextual Regularization and its Object Detection."
+              ghLink="https://github.com/technoayan7/Object-Detection-in-an-Hazy-Image"
+              demoLink="https://github.com/technoayan7/Object-Detection-in-an-Hazy-Image"
             />
           </Col>
 
