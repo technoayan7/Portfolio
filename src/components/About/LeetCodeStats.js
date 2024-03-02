@@ -5,7 +5,7 @@ function PortfolioComponent() {
     return (
         <Container>
             <Row className="justify-content-center">
-                <Col xs={12} md={4}>
+                <Col xs={12} md={5}>
                     <h1 className="project-heading" style={{ paddingBottom: "10px", textAlign: "center" }}>
                         LeetCode <strong className="purple">Statistics</strong>
                     </h1>
