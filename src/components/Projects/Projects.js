@@ -5,6 +5,7 @@ import Particle from "../Particle";
 import editor from "../../Assets/Projects/codeEditor.png";
 import chatify from "../../Assets/Projects/chatify.png";
 import bitsOfCode from "../../Assets/Projects/blog.png";
+import tictac from "../../Assets/Projects/tictac.png";
 
 function Projects() {
   return (
@@ -48,6 +49,17 @@ function Projects() {
               description="Online code and markdown editor build with react.js. Online Editor which supports html, css, and js code with instant view of website. Online markdown editor for building README file which supports GFM, Custom Html tags with toolbar and instant preview.Both the editor supports auto save of work using Local Storage"
               ghLink="https://github.com/soumyajit4419/Editor.io"
               demoLink="https://editor.soumya-jit.tech/"              
+            />
+          </Col>
+
+          <Col md={4} className="project-card">
+            <ProjectCard
+              imgPath={tictac}
+              isBlog={false}
+              title="Tic Tac Toe Game"
+              description="Developed a Tic Tac Toe Game while I was Learning HTML, CSS, JavaScript."
+              ghLink="https://github.com/technoayan7/Tic-Tac-Toe"
+              demoLink="https://technoayan7.github.io/Tic-Tac-Toe/"
             />
           </Col>
 

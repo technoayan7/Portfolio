@@ -3,11 +3,12 @@ import { Container, Row, Col } from "react-bootstrap";
 import Type from "./Type";
 import Particle from "../Particle";
 import Github from "./Github";
+import PortfolioComponent from "./LeetCodeStats";
+import LeetcodeMap from "./LeetcodeMap";
 import Techstack from "./Techstack";
 import Aboutcard from "./AboutCard";
 import laptopImg from "../../Assets/about.png";
 
-// import Toolstack from "./Toolstack";
 
 function About() {
   return (
@@ -51,6 +52,8 @@ function About() {
         <Toolstack /> */}
 
         <Github />
+        <LeetcodeMap />
+        <PortfolioComponent />
       </Container>
     </Container>
   );
