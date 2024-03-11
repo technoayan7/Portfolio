@@ -7,6 +7,7 @@ import chatify from "../../Assets/Projects/chatify.png";
 import bitsOfCode from "../../Assets/Projects/blog.png";
 import tictac from "../../Assets/Projects/tictac.jpg";
 import FitHub from "../../Assets/Projects/fithub.jpg";
+import MoviePulse from "../../Assets/Projects/MoviePulse.jpg";
 import Objectdetection from "../../Assets/Projects/objectdetection.jpg";
 
 function Projects() {
@@ -56,12 +57,12 @@ function Projects() {
 
           <Col md={4} className="project-card">
             <ProjectCard
-              imgPath={tictac}
+              imgPath={MoviePulse}
               isBlog={false}
-              title="Tic Tac Toe Game"
-              description="Developed a Tic Tac Toe Game while I was Learning HTML, CSS, JavaScript."
-              ghLink="https://github.com/technoayan7/Tic-Tac-Toe"
-              demoLink="https://technoayan7.github.io/Tic-Tac-Toe/"
+              title="MoviePulse"
+              description="This application provides all the details of the requested movie such as overview, genre, release date, rating, runtime, top cast, Sortby, reviews, recommended movies, etc."
+              ghLink="https://github.com/technoayan7/MoviePulse"
+              demoLink="https://moviepulse.netlify.app/"
             />
           </Col>
 
@@ -75,14 +76,26 @@ function Projects() {
               demoLink="https://fit-hub.vercel.app/"
             />
           </Col>
+
           <Col md={4} className="project-card">
             <ProjectCard
               imgPath={Objectdetection}
               isBlog={false}
-              title="FitHub"
+              title="Image Dehazing"
               description="Python implementation of the paper: Efficient Image Dehazing with Boundary Constraint and Contextual Regularization and its Object Detection."
               ghLink="https://github.com/technoayan7/Object-Detection-in-an-Hazy-Image"
               demoLink="https://github.com/technoayan7/Object-Detection-in-an-Hazy-Image"
+            />
+          </Col>
+
+          <Col md={4} className="project-card">
+            <ProjectCard
+              imgPath={tictac}
+              isBlog={false}
+              title="Tic Tac Toe Game"
+              description="Developed a Tic Tac Toe Game while I was Learning HTML, CSS, JavaScript."
+              ghLink="https://github.com/technoayan7/Tic-Tac-Toe"
+              demoLink="https://technoayan7.github.io/Tic-Tac-Toe/"
             />
           </Col>
 
