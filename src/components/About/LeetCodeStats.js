@@ -6,15 +6,17 @@ import "@fontsource/rubik/400.css";
 
 function LeetCodeStats() {
     const [profileData, setProfileData] = useState(null);
-    const [avatarData, setAvatarData] = useState(null);
+    const [totalQuestions, setTotalQuestions] = useState({ all: 0, easy: 0, medium: 0, hard: 0 });
     const [loading, setLoading] = useState(true);
+    const [avatarData, setAvatarData] = useState(null);
     const [avatarLoading, setAvatarLoading] = useState(true);
+    const [ranking, setRanking] = useState(null);
 
     useEffect(() => {
         // Fetch profile data
         const fetchProfileData = async () => {
             try {
-                const response = await fetch("https://leetcode-stats-api.herokuapp.com/technoayan");
+                const response = await fetch("https://techno-leetcode-api.vercel.app/technoayan/solved");
                 const data = await response.json();
                 setProfileData(data);
                 setLoading(false);
@@ -24,21 +26,43 @@ function LeetCodeStats() {
             }
         };
 
-        // Fetch avatar data
-        const fetchAvatarData = async () => {
+        // Fetch avatar and ranking data
+        const fetchAvatarAndRanking = async () => {
             try {
                 const response = await fetch("https://techno-leetcode-api.vercel.app/technoayan");
                 const data = await response.json();
                 setAvatarData(data.avatar);
+                setRanking(data.ranking);
                 setAvatarLoading(false);
             } catch (error) {
-                console.error("Error fetching avatar data:", error);
+                console.error("Error fetching avatar and ranking data:", error);
                 setAvatarLoading(false);
             }
         };
 
+        // Fetch total questions count
+        const fetchTotalQuestions = async () => {
+            try {
+                const response = await fetch("https://techno-leetcode-api.vercel.app/problemList");
+                const data = await response.json();
+                const counts = data.data.allQuestionsCount.reduce((acc, item) => {
+                    acc[item.difficulty.toLowerCase()] = item.count;
+                    return acc;
+                }, {});
+                setTotalQuestions({
+                    all: counts.all || 0,
+                    easy: counts.easy || 0,
+                    medium: counts.medium || 0,
+                    hard: counts.hard || 0,
+                });
+            } catch (error) {
+                console.error("Error fetching total questions:", error);
+            }
+        };
+
+        fetchAvatarAndRanking();
         fetchProfileData();
-        fetchAvatarData();
+        fetchTotalQuestions();
     }, []);
 
     if (loading || avatarLoading) {
@@ -53,7 +77,7 @@ function LeetCodeStats() {
         );
     }
 
-    if (!profileData || profileData.status !== "success" || !avatarData) {
+    if (!profileData || !avatarData || ranking === null) {
         return (
             <Container>
                 <Row className="justify-content-center">
@@ -66,27 +90,23 @@ function LeetCodeStats() {
     }
 
     const {
-        ranking,
-        totalSolved,
-        totalQuestions,
+        solvedProblem,
         easySolved,
-        totalEasy,
         mediumSolved,
-        totalMedium,
         hardSolved,
-        totalHard,
     } = profileData;
 
-    const overallPercentage = Math.round((totalSolved / totalQuestions) * 100);
-    const easyPercentage = Math.round((easySolved / totalEasy) * 100);
-    const mediumPercentage = Math.round((mediumSolved / totalMedium) * 100);
-    const hardPercentage = Math.round((hardSolved / totalHard) * 100);
+    const { all, easy, medium, hard } = totalQuestions;
+
+    const overallPercentage = Math.round((solvedProblem / all) * 100);
+    const easyPercentage = Math.round((easySolved / easy) * 100);
+    const mediumPercentage = Math.round((mediumSolved / medium) * 100);
+    const hardPercentage = Math.round((hardSolved / hard) * 100);
 
     return (
         <Container>
             <Row className="justify-content-center">
                 <Col xs={12} md={12} lg={12}>
-                    {/* Main Box */}
                     <div
                         style={{
                             backgroundColor: "#1a1a1a",
@@ -95,7 +115,6 @@ function LeetCodeStats() {
                             color: "white",
                         }}
                     >
-                        {/* First Row: Profile Picture and Overall Progress */}
                         <Row className="align-items-center mb-4">
                             <Col xs={12} md={6} className="text-center">
                                 <img
@@ -123,13 +142,10 @@ function LeetCodeStats() {
                                         })}
                                     />
                                 </div>
-                                <p style={{ marginTop: "5px", fontFamily: "Rubik, sans-serif", fontWeight: 400 }}>
-                                    {totalSolved} / {totalQuestions}
-                                </p>
+                                <p style={{ marginTop: "5px", fontFamily: "Rubik, sans-serif", fontWeight: 400 }}>{solvedProblem} / {all}</p>
                             </Col>
                         </Row>
 
-                        {/* Second Row: Easy, Medium, Hard */}
                         <Row>
                             <Col xs={4} className="text-center">
                                 <h6>Easy</h6>
@@ -144,9 +160,7 @@ function LeetCodeStats() {
                                         })}
                                     />
                                 </div>
-                                <p style={{ marginTop: "5px", fontFamily: "Rubik, sans-serif", fontWeight: 400 }}>
-                                    {easySolved} / {totalEasy}
-                                </p>
+                                <p style={{ marginTop: "5px", fontFamily: "Rubik, sans-serif", fontWeight: 400 }}>{easySolved} / {easy}</p>
                             </Col>
                             <Col xs={4} className="text-center">
                                 <h6>Medium</h6>
@@ -161,9 +175,7 @@ function LeetCodeStats() {
                                         })}
                                     />
                                 </div>
-                                <p style={{ marginTop: "5px", fontFamily: "Rubik, sans-serif", fontWeight: 400 }}>
-                                    {mediumSolved} / {totalMedium}
-                                </p>
+                                <p style={{ marginTop: "5px", fontFamily: "Rubik, sans-serif", fontWeight: 400 }}>{mediumSolved} / {medium}</p>
                             </Col>
                             <Col xs={4} className="text-center">
                                 <h6>Hard</h6>
@@ -178,9 +190,7 @@ function LeetCodeStats() {
                                         })}
                                     />
                                 </div>
-                                <p style={{ marginTop: "5px", fontFamily: "Rubik, sans-serif", fontWeight: 400 }}>
-                                    {hardSolved} / {totalHard}
-                                </p>
+                                <p style={{ marginTop: "5px", fontFamily: "Rubik, sans-serif", fontWeight: 400 }}>{hardSolved} / {hard}</p>
                             </Col>
                         </Row>
                     </div>

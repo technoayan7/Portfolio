@@ -1,0 +1,32 @@
+.color-empty {
+    fill: #eeeeee;
+    /* Light gray for days with no activity */
+}
+
+.color-scale-red {
+    fill: #b27be4;
+    /* Bright red for high activity (count >= 10) */
+}
+
+.color-scale-yellow {
+    fill: #9668c0;
+    /* Yellow for medium activity (5 <= count < 10) */
+}
+
+.color-scale-green {
+    fill: #5f417a;
+    /* Lime green for low activity (count < 5) */
+}
+
+/* Optional: Style the heatmap blocks */
+.react-calendar-heatmap .color-empty {
+    stroke: #ccc;
+    /* Add border for empty blocks */
+}
+
+.react-calendar-heatmap .color-scale-red,
+.react-calendar-heatmap .color-scale-yellow,
+.react-calendar-heatmap .color-scale-green {
+    stroke: #fff;
+    /* Add white border for colored blocks */
+}

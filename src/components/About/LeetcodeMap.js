@@ -3,6 +3,7 @@ import axios from 'axios';
 import ReactCalendarHeatmap from 'react-calendar-heatmap';
 import 'react-calendar-heatmap/dist/styles.css';
 import { Row } from 'react-bootstrap';
+import './LeetcodeMap.css'; // Import the CSS file
 
 function LeetcodeMap() {
     const [calendarData, setCalendarData] = useState([]);
@@ -10,11 +11,11 @@ function LeetcodeMap() {
     useEffect(() => {
         async function fetchCalendarData() {
             try {
-                const response = await axios.get('https://alfa-leetcode-api.onrender.com/technoayan/calendar');
+                const response = await axios.get('https://techno-leetcode-api.vercel.app/technoayan/calendar');
                 const parsedData = JSON.parse(response.data.submissionCalendar);
                 const formattedData = Object.entries(parsedData).map(([timestamp, count]) => ({
                     date: new Date(parseInt(timestamp) * 1000),
-                    count: count
+                    count: count,
                 }));
                 console.log("Formatted Data:", formattedData);
                 setCalendarData(formattedData);
@@ -31,24 +32,21 @@ function LeetcodeMap() {
             <h1 className="project-heading" style={{ paddingBottom: '20px' }}>
                 Days I <strong className="purple">Code</strong> LeetCode
             </h1>
-            <div style={{ maxWidth: '1050px', width: '100%', overflowX: 'auto', paddingBottom: '20px'}}>
+            <div style={{ maxWidth: '1050px', width: '100%', overflowX: 'auto', paddingBottom: '20px' }}>
                 <ReactCalendarHeatmap
-                    startDate={new Date('2023-04-01')}
-                    endDate={new Date('2024-03-31')}
+                    startDate={new Date('2023-12-31')}
+                    endDate={new Date('2024-11-31')}
                     values={calendarData}
                     classForValue={(value) => {
                         if (!value) {
                             return 'color-empty';
                         }
-                        // Example: Mark blocks with count >= 10 as red
                         if (value.count >= 10) {
                             return 'color-scale-red';
                         }
-                        // Example: Mark blocks with count between 5 and 9 as yellow
-                        if (value.count >= 5 && value.count < 10) {
+                        if (value.count >= 5) {
                             return 'color-scale-yellow';
                         }
-                        // Example: Mark blocks with count less than 5 as green
                         return 'color-scale-green';
                     }}
                 />

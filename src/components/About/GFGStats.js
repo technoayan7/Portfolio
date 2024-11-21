@@ -52,19 +52,19 @@ function GFGProfile() {
         userName,
         profilePicture,
         instituteRank,
-        currentStreak,
-        maxStreak,
-        institution,
+        // currentStreak,
+        // maxStreak,
+        // institution,
         totalProblemsSolved,
     } = info;
 
-    const problemStats = [
-        { label: "School", count: solvedStats.school.count },
-        { label: "Basic", count: solvedStats.basic.count },
-        { label: "Easy", count: solvedStats.easy.count },
-        { label: "Medium", count: solvedStats.medium.count },
-        { label: "Hard", count: solvedStats.hard.count },
-    ];
+    // const problemStats = [
+    //     { label: "School", count: solvedStats.school.count },
+    //     { label: "Basic", count: solvedStats.basic.count },
+    //     { label: "Easy", count: solvedStats.easy.count },
+    //     { label: "Medium", count: solvedStats.medium.count },
+    //     { label: "Hard", count: solvedStats.hard.count },
+    // ];
 
     return (
         <Container>
