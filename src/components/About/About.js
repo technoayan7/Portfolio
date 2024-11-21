@@ -3,7 +3,8 @@ import { Container, Row, Col } from "react-bootstrap";
 import Type from "./Type";
 import Particle from "../Particle";
 import Github from "./Github";
-import PortfolioComponent from "./LeetCodeStats";
+import LeetCodeStats from "./LeetCodeStats";
+import GFGProfile from "./GFGStats";
 import LeetcodeMap from "./LeetcodeMap";
 import Techstack from "./Techstack";
 import Aboutcard from "./AboutCard";
@@ -53,7 +54,20 @@ function About() {
 
         <Github />
         <LeetcodeMap />
-        <PortfolioComponent />
+        <Row>
+          <Col md={6}>
+            <h1 className="project-heading">
+              Leet<strong className="purple">Code </strong>Stats
+            </h1>
+            <LeetCodeStats />
+          </Col>
+          <Col md={6}>
+            <h1 className="project-heading">
+              Geeksfor<strong className="purple">Geeks </strong>Stats
+            </h1>
+            <GFGProfile />
+          </Col>
+        </Row>
       </Container>
     </Container>
   );
