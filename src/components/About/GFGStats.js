@@ -27,7 +27,7 @@ function GFGProfile() {
         return (
             <Container>
                 <Row className="justify-content-center">
-                    <Col xs={12} md={12} lg={12} className="text-center">
+                    <Col xs={12} md={6} lg={4} className="text-center">
                         <p style={{ color: "white" }}>Loading...</p>
                     </Col>
                 </Row>
@@ -39,7 +39,7 @@ function GFGProfile() {
         return (
             <Container>
                 <Row className="justify-content-center">
-                    <Col xs={12} md={12} lg={12} className="text-center">
+                    <Col xs={12} md={6} lg={4} className="text-center">
                         <p style={{ color: "red" }}>Failed to load profile data.</p>
                     </Col>
                 </Row>
@@ -52,25 +52,18 @@ function GFGProfile() {
         userName,
         profilePicture,
         instituteRank,
-        // currentStreak,
-        // maxStreak,
-        // institution,
         totalProblemsSolved,
     } = info;
 
-    // const problemStats = [
-    //     { label: "School", count: solvedStats.school.count },
-    //     { label: "Basic", count: solvedStats.basic.count },
-    //     { label: "Easy", count: solvedStats.easy.count },
-    //     { label: "Medium", count: solvedStats.medium.count },
-    //     { label: "Hard", count: solvedStats.hard.count },
-    // ];
+    // Calculate the stats for easy (basic + easy), medium, and hard
+    const easyCount = solvedStats.basic.count + solvedStats.easy.count;
+    const mediumCount = solvedStats.medium.count;
+    const hardCount = solvedStats.hard.count;
 
     return (
         <Container>
             <Row className="justify-content-center">
                 <Col xs={12} md={12} lg={12}>
-                    {/* Main Box */}
                     <div
                         style={{
                             backgroundColor: "#1a1a1a",
@@ -79,7 +72,6 @@ function GFGProfile() {
                             color: "white",
                         }}
                     >
-                        {/* First Row: Profile Picture and User Info */}
                         <Row className="align-items-center mb-4">
                             <Col xs={12} md={6} className="text-center">
                                 <img
@@ -107,45 +99,57 @@ function GFGProfile() {
                                         })}
                                     />
                                 </div>
-                                {/* <h5>Stats</h5> */}
-                                <p style={{ fontFamily: "Rubik, sans-serif", fontWeight: 400 }}>Total Solved: {totalProblemsSolved}</p>
+                                <p style={{ marginTop: "5px", fontFamily: "Rubik, sans-serif", fontWeight: 400 }}>Total Solved: {totalProblemsSolved}</p>
                             </Col>
                         </Row>
 
-                        {/* Second Row: Problem Stats */}
                         <Row>
-                            {[
-                                {
-                                    label: "Easy",
-                                    count: solvedStats.school.count + solvedStats.basic.count + solvedStats.easy.count,
-                                },
-                                {
-                                    label: "Medium",
-                                    count: solvedStats.medium.count,
-                                },
-                                {
-                                    label: "Hard",
-                                    count: solvedStats.hard.count,
-                                },
-                            ].map((stat, index) => (
-                                <Col key={index} xs={6} md={4} className="text-center">
-                                    <h6>{stat.label}</h6>
-                                    <div style={{ width: "80px", margin: "0 auto", fontFamily: "Rubik, sans-serif", fontWeight: 400 }}>
-                                        <CircularProgressbar
-                                            value={stat.count}
-                                            text={`${stat.count}`}
-                                            styles={buildStyles({
-                                                textColor: "white",
-                                                pathColor: "#1cbaba",
-                                                trailColor: "#303030",
-                                            })}
-                                        />
-                                    </div>
-                                    <p style={{ marginTop: "5px", fontFamily: "Rubik, sans-serif", fontWeight: 400 }}>{stat.count} problems</p>
-                                </Col>
-                            ))}
+                            <Col xs={4} className="text-center">
+                                <h6>Easy</h6>
+                                <div style={{ width: "80px", margin: "0 auto", fontFamily: "Rubik, sans-serif", fontWeight: 400 }}>
+                                    <CircularProgressbar
+                                        value={easyCount}
+                                        text={`${easyCount}`}
+                                        styles={buildStyles({
+                                            textColor: "white",
+                                            pathColor: "#1cbaba",
+                                            trailColor: "#264545",
+                                        })}
+                                    />
+                                </div>
+                                <p style={{ marginTop: "5px", fontFamily: "Rubik, sans-serif", fontWeight: 400 }}>{easyCount} problems</p>
+                            </Col>
+                            <Col xs={4} className="text-center">
+                                <h6>Medium</h6>
+                                <div style={{ width: "80px", margin: "0 auto", fontFamily: "Rubik, sans-serif", fontWeight: 400 }}>
+                                    <CircularProgressbar
+                                        value={mediumCount}
+                                        text={`${mediumCount}`}
+                                        styles={buildStyles({
+                                            textColor: "white",
+                                            pathColor: "#ffb700",
+                                            trailColor: "#534520",
+                                        })}
+                                    />
+                                </div>
+                                <p style={{ marginTop: "5px", fontFamily: "Rubik, sans-serif", fontWeight: 400 }}>{mediumCount} problems</p>
+                            </Col>
+                            <Col xs={4} className="text-center">
+                                <h6>Hard</h6>
+                                <div style={{ width: "80px", margin: "0 auto", fontFamily: "Rubik, sans-serif", fontWeight: 400 }}>
+                                    <CircularProgressbar
+                                        value={hardCount}
+                                        text={`${hardCount}`}
+                                        styles={buildStyles({
+                                            textColor: "white",
+                                            pathColor: "#f63737",
+                                            trailColor: "#512b2b",
+                                        })}
+                                    />
+                                </div>
+                                <p style={{ marginTop: "5px", fontFamily: "Rubik, sans-serif", fontWeight: 400 }}>{hardCount} problems</p>
+                            </Col>
                         </Row>
-
                     </div>
                 </Col>
             </Row>
