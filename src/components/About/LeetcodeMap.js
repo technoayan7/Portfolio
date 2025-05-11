@@ -34,8 +34,8 @@ function LeetcodeMap() {
             </h1>
             <div style={{ maxWidth: '1050px', width: '100%', overflowX: 'auto', paddingBottom: '20px' }}>
                 <ReactCalendarHeatmap
-                    startDate={new Date('2023-12-31')}
-                    endDate={new Date('2024-11-31')}
+                    startDate={new Date('2024-05-01')}
+                    endDate={new Date('2025-05-31')}
                     values={calendarData}
                     classForValue={(value) => {
                         if (!value) {
