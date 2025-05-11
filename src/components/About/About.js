@@ -8,6 +8,7 @@ import GFGProfile from "./GFGStats";
 import LeetcodeMap from "./LeetcodeMap";
 import CodeChefStats from "./CodeChefStats"; 
 import Techstack from "./Techstack";
+import Toolstack from "./Toolstack";
 import Aboutcard from "./AboutCard";
 import laptopImg from "../../Assets/about.png";
 
@@ -48,10 +49,10 @@ function About() {
 
         <Techstack />
 
-        {/* <h1 className="project-heading">
+        <h1 className="project-heading">
           <strong className="purple">Tools</strong> I use
         </h1>
-        <Toolstack /> */}
+        <Toolstack />
 
         <Github />
         <LeetcodeMap />
