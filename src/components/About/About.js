@@ -6,6 +6,7 @@ import Github from "./Github";
 import LeetCodeStats from "./LeetCodeStats";
 import GFGProfile from "./GFGStats";
 import LeetcodeMap from "./LeetcodeMap";
+import CodeChefStats from "./CodeChefStats"; 
 import Techstack from "./Techstack";
 import Aboutcard from "./AboutCard";
 import laptopImg from "../../Assets/about.png";
@@ -55,19 +56,26 @@ function About() {
         <Github />
         <LeetcodeMap />
         <Row>
-          <Col md={6}>
+          <Col md={4}>
             <h1 className="project-heading">
               Leet<strong className="purple">Code </strong>Stats
             </h1>
             <LeetCodeStats />
           </Col>
-          <Col md={6}>
+          <Col md={4}>
             <h1 className="project-heading">
               Geeksfor<strong className="purple">Geeks </strong>Stats
             </h1>
             <GFGProfile />
           </Col>
+          <Col md={4}>
+            <h1 className="project-heading">
+              Code<strong className="purple">Chef </strong>Stats
+            </h1>
+            <CodeChefStats />
+          </Col>
         </Row>
+
       </Container>
     </Container>
   );
