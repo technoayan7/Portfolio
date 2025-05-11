@@ -12,6 +12,7 @@ import {
   DiHtml5,
   DiBootstrap,
   DiGithubBadge,
+  DiGo,
 } from "react-icons/di";
 import {
   SiFirebase,
@@ -29,6 +30,9 @@ function Techstack() {
       </Col>
       <Col xs={4} md={2} className="tech-icons">
         <DiJava />
+      </Col>
+      <Col xs={4} md={2} className="tech-icons">
+        <DiGo />
       </Col>
       <Col xs={4} md={2} className="tech-icons">
         <DiJavascript1 />
