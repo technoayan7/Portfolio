@@ -1,198 +1,234 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import "@fontsource/rubik/400.css";
 
+// Cache for API responses
+const apiCache = new Map();
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+
+const fetchWithCache = async (url, cacheKey) => {
+    const cached = apiCache.get(cacheKey);
+    if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
+        return cached.data;
+    }
+
+    const response = await fetch(url);
+    const data = await response.json();
+    apiCache.set(cacheKey, { data, timestamp: Date.now() });
+    return data;
+};
+
 function LeetCodeStats() {
-    const [profileData, setProfileData] = useState(null);
-    const [totalQuestions, setTotalQuestions] = useState({ all: 0, easy: 0, medium: 0, hard: 0 });
-    const [loading, setLoading] = useState(true);
-    const [avatarData, setAvatarData] = useState(null);
-    const [avatarLoading, setAvatarLoading] = useState(true);
-    const [ranking, setRanking] = useState(null);
+    const [state, setState] = useState({
+        profileData: null,
+        totalQuestions: { all: 0, easy: 0, medium: 0, hard: 0 },
+        loading: true,
+        avatarData: null,
+        ranking: null,
+        error: null
+    });
 
-    useEffect(() => {
-        // Fetch profile data
-        const fetchProfileData = async () => {
-            try {
-                const response = await fetch("https://techno-leetcode-api.vercel.app/technoayan/solved");
-                const data = await response.json();
-                setProfileData(data);
-                setLoading(false);
-            } catch (error) {
-                console.error("Error fetching profile data:", error);
-                setLoading(false);
-            }
-        };
+    const fetchData = useCallback(async () => {
+        try {
+            const [profileResponse, avatarResponse, questionsResponse] = await Promise.all([
+                fetchWithCache("https://techno-leetcode-api.vercel.app/technoayan/solved", "profile"),
+                fetchWithCache("https://techno-leetcode-api.vercel.app/technoayan", "avatar"),
+                fetchWithCache("https://techno-leetcode-api.vercel.app/problemList", "questions")
+            ]);
 
-        // Fetch avatar and ranking data
-        const fetchAvatarAndRanking = async () => {
-            try {
-                const response = await fetch("https://techno-leetcode-api.vercel.app/technoayan");
-                const data = await response.json();
-                setAvatarData(data.avatar);
-                setRanking(data.ranking);
-                setAvatarLoading(false);
-            } catch (error) {
-                console.error("Error fetching avatar and ranking data:", error);
-                setAvatarLoading(false);
-            }
-        };
+            const counts = questionsResponse.data.allQuestionsCount.reduce((acc, item) => {
+                acc[item.difficulty.toLowerCase()] = item.count;
+                return acc;
+            }, {});
 
-        // Fetch total questions count
-        const fetchTotalQuestions = async () => {
-            try {
-                const response = await fetch("https://techno-leetcode-api.vercel.app/problemList");
-                const data = await response.json();
-                const counts = data.data.allQuestionsCount.reduce((acc, item) => {
-                    acc[item.difficulty.toLowerCase()] = item.count;
-                    return acc;
-                }, {});
-                setTotalQuestions({
+            setState({
+                profileData: profileResponse,
+                avatarData: avatarResponse.avatar,
+                ranking: avatarResponse.ranking,
+                totalQuestions: {
                     all: counts.all || 0,
                     easy: counts.easy || 0,
                     medium: counts.medium || 0,
                     hard: counts.hard || 0,
-                });
-            } catch (error) {
-                console.error("Error fetching total questions:", error);
-            }
-        };
-
-        fetchAvatarAndRanking();
-        fetchProfileData();
-        fetchTotalQuestions();
+                },
+                loading: false,
+                error: null
+            });
+        } catch (error) {
+            console.error("Error fetching profile data:", error);
+            setState(prev => ({ ...prev, loading: false, error: error.message }));
+        }
     }, []);
 
-    if (loading || avatarLoading) {
+    useEffect(() => {
+        fetchData();
+    }, [fetchData]);
+
+    const progressData = useMemo(() => {
+        if (!state.profileData || !state.totalQuestions.all) return null;
+
+        const { solvedProblem, easySolved, mediumSolved, hardSolved } = state.profileData;
+        const { all, easy, medium, hard } = state.totalQuestions;
+
+        return {
+            overall: {
+                percentage: Math.round((solvedProblem / all) * 100),
+                solved: solvedProblem,
+                total: all
+            },
+            easy: {
+                percentage: Math.round((easySolved / easy) * 100),
+                solved: easySolved,
+                total: easy
+            },
+            medium: {
+                percentage: Math.round((mediumSolved / medium) * 100),
+                solved: mediumSolved,
+                total: medium
+            },
+            hard: {
+                percentage: Math.round((hardSolved / hard) * 100),
+                solved: hardSolved,
+                total: hard
+            }
+        };
+    }, [state.profileData, state.totalQuestions]);
+
+    if (state.loading) {
         return (
             <Container>
                 <Row className="justify-content-center">
                     <Col xs={12} md={6} lg={4} className="text-center">
-                        <p style={{ color: "white" }}>Loading...</p>
+                        <div className="loading-spinner">
+                            <div className="spinner"></div>
+                            <p style={{ color: "white", marginTop: "10px" }}>Loading LeetCode Stats...</p>
+                        </div>
                     </Col>
                 </Row>
             </Container>
         );
     }
 
-    if (!profileData || !avatarData || ranking === null) {
+    if (state.error || !progressData) {
         return (
             <Container>
                 <Row className="justify-content-center">
                     <Col xs={12} md={6} lg={4} className="text-center">
-                        <p style={{ color: "red" }}>Failed to load profile data.</p>
+                        <div className="error-card">
+                            <p style={{ color: "#ff6b6b" }}>
+                                {state.error || "Failed to load profile data."}
+                            </p>
+                        </div>
                     </Col>
                 </Row>
             </Container>
         );
     }
-
-    const {
-        solvedProblem,
-        easySolved,
-        mediumSolved,
-        hardSolved,
-    } = profileData;
-
-    const { all, easy, medium, hard } = totalQuestions;
-
-    const overallPercentage = Math.round((solvedProblem / all) * 100);
-    const easyPercentage = Math.round((easySolved / easy) * 100);
-    const mediumPercentage = Math.round((mediumSolved / medium) * 100);
-    const hardPercentage = Math.round((hardSolved / hard) * 100);
 
     return (
         <Container>
             <Row className="justify-content-center">
                 <Col xs={12} md={12} lg={12}>
-                    <div
-                        style={{
-                            backgroundColor: "#1a1a1a",
-                            padding: "20px",
-                            borderRadius: "10px",
-                            color: "white",
-                        }}
-                    >
+                    <div className="stats-card leetcode-card">
+                        <div className="card-header">
+                            <div className="platform-logo">
+                                <span className="leetcode-logo">LC</span>
+                            </div>
+                            <h4 className="platform-title">LeetCode</h4>
+                        </div>
+
                         <Row className="align-items-center mb-4">
-                            <Col xs={12} md={6} className="text-center">
-                                <img
-                                    src={avatarData}
-                                    alt="Profile Avatar"
-                                    style={{
-                                        width: "100px",
-                                        height: "100px",
-                                        borderRadius: "50%",
-                                    }}
-                                />
-                                <h5 style={{ marginTop: "10px", fontFamily: "Rubik, sans-serif", fontWeight: 400 }}>technoayan</h5>
-                                <p style={{ fontFamily: "Rubik, sans-serif", fontWeight: 400 }}>Global Rank: {ranking}</p>
+                            <Col xs={12} md={6} className="text-center profile-section">
+                                <div className="avatar-container">
+                                    <img
+                                        src={state.avatarData}
+                                        alt="Profile Avatar"
+                                        className="profile-avatar"
+                                        loading="lazy"
+                                    />
+                                    <div className="avatar-ring"></div>
+                                </div>
+                                <h5 className="username">technoayan</h5>
+                                <div className="rank-badge">
+                                    <span className="rank-icon">🏆</span>
+                                    <span>Rank: {state.ranking}</span>
+                                </div>
                             </Col>
-                            <Col xs={12} md={6} className="text-center">
-                                <h5>Overall Progress</h5>
-                                <div style={{ width: "120px", margin: "0 auto", fontFamily: "Rubik, sans-serif", fontWeight: 400 }}>
+                            <Col xs={12} md={6} className="text-center progress-section">
+                                <h5 className="section-title">Overall Progress</h5>
+                                <div className="main-progress-container">
                                     <CircularProgressbar
-                                        value={overallPercentage}
-                                        text={`${overallPercentage}%`}
+                                        value={progressData.overall.percentage}
+                                        text={`${progressData.overall.percentage}%`}
                                         styles={buildStyles({
                                             textColor: "white",
                                             pathColor: "#FFD700",
                                             trailColor: "#303030",
+                                            textSize: "14px",
+                                            pathTransitionDuration: 2,
                                         })}
                                     />
                                 </div>
-                                <p style={{ marginTop: "5px", fontFamily: "Rubik, sans-serif", fontWeight: 400 }}>{solvedProblem} / {all}</p>
+                                <p className="progress-stats">
+                                    {progressData.overall.solved} / {progressData.overall.total} solved
+                                </p>
                             </Col>
                         </Row>
 
-                        <Row>
-                            <Col xs={4} className="text-center">
-                                <h6>Easy</h6>
-                                <div style={{ width: "80px", margin: "0 auto", fontFamily: "Rubik, sans-serif", fontWeight: 400 }}>
-                                    <CircularProgressbar
-                                        value={easyPercentage}
-                                        text={`${easyPercentage}%`}
-                                        styles={buildStyles({
-                                            textColor: "white",
-                                            pathColor: "#1cbaba",
-                                            trailColor: "#264545",
-                                        })}
-                                    />
-                                </div>
-                                <p style={{ marginTop: "5px", fontFamily: "Rubik, sans-serif", fontWeight: 400 }}>{easySolved} / {easy}</p>
-                            </Col>
-                            <Col xs={4} className="text-center">
-                                <h6>Medium</h6>
-                                <div style={{ width: "80px", margin: "0 auto", fontFamily: "Rubik, sans-serif", fontWeight: 400 }}>
-                                    <CircularProgressbar
-                                        value={mediumPercentage}
-                                        text={`${mediumPercentage}%`}
-                                        styles={buildStyles({
-                                            textColor: "white",
-                                            pathColor: "#ffb700",
-                                            trailColor: "#534520",
-                                        })}
-                                    />
-                                </div>
-                                <p style={{ marginTop: "5px", fontFamily: "Rubik, sans-serif", fontWeight: 400 }}>{mediumSolved} / {medium}</p>
-                            </Col>
-                            <Col xs={4} className="text-center">
-                                <h6>Hard</h6>
-                                <div style={{ width: "80px", margin: "0 auto", fontFamily: "Rubik, sans-serif", fontWeight: 400 }}>
-                                    <CircularProgressbar
-                                        value={hardPercentage}
-                                        text={`${hardPercentage}%`}
-                                        styles={buildStyles({
-                                            textColor: "white",
-                                            pathColor: "#f63737",
-                                            trailColor: "#512b2b",
-                                        })}
-                                    />
-                                </div>
-                                <p style={{ marginTop: "5px", fontFamily: "Rubik, sans-serif", fontWeight: 400 }}>{hardSolved} / {hard}</p>
-                            </Col>
-                        </Row>
+                        <div className="difficulty-section">
+                            <h5 className="section-title">Problem Breakdown</h5>
+                            <Row className="difficulty-stats">
+                                {[
+                                    {
+                                        title: "Easy",
+                                        data: progressData.easy,
+                                        pathColor: "#00b894",
+                                        trailColor: "#264545",
+                                        icon: "🟢"
+                                    },
+                                    {
+                                        title: "Medium",
+                                        data: progressData.medium,
+                                        pathColor: "#fdcb6e",
+                                        trailColor: "#534520",
+                                        icon: "🟡"
+                                    },
+                                    {
+                                        title: "Hard",
+                                        data: progressData.hard,
+                                        pathColor: "#e17055",
+                                        trailColor: "#512b2b",
+                                        icon: "🔴"
+                                    }
+                                ].map(({ title, data, pathColor, trailColor, icon }, index) => (
+                                    <Col key={title} xs={4} className="text-center difficulty-item">
+                                        <div className="difficulty-header">
+                                            <span className="difficulty-icon">{icon}</span>
+                                            <h6 className="difficulty-title">{title}</h6>
+                                        </div>
+                                        <div className="difficulty-progress" style={{ animationDelay: `${index * 0.2}s` }}>
+                                            <CircularProgressbar
+                                                value={data.percentage}
+                                                text={`${data.percentage}%`}
+                                                styles={buildStyles({
+                                                    textColor: "white",
+                                                    pathColor,
+                                                    trailColor,
+                                                    textSize: "16px",
+                                                    pathTransitionDuration: 2,
+                                                })}
+                                            />
+                                        </div>
+                                        <div className="difficulty-stats">
+                                            <span className="solved-count">{data.solved}</span>
+                                            <span className="total-count">/ {data.total}</span>
+                                        </div>
+                                    </Col>
+                                ))}
+                            </Row>
+                        </div>
                     </div>
                 </Col>
             </Row>
@@ -200,4 +236,4 @@ function LeetCodeStats() {
     );
 }
 
-export default LeetCodeStats;
+export default React.memo(LeetCodeStats);
