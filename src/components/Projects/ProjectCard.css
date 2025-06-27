@@ -1,0 +1,424 @@
+/* Project Card Animations */
+.project-card {
+  animation: slideInUp 0.8s ease-out;
+  animation-fill-mode: both;
+  margin-bottom: 30px;
+}
+
+.project-card:nth-child(1) { animation-delay: 0.1s; }
+.project-card:nth-child(2) { animation-delay: 0.2s; }
+.project-card:nth-child(3) { animation-delay: 0.3s; }
+.project-card:nth-child(4) { animation-delay: 0.4s; }
+.project-card:nth-child(5) { animation-delay: 0.5s; }
+.project-card:nth-child(6) { animation-delay: 0.6s; }
+.project-card:nth-child(7) { animation-delay: 0.7s; }
+
+/* Enhanced Project Card */
+.project-card-view {
+  background: linear-gradient(135deg, #0d1117, #161b22);
+  border: 1px solid #30363d;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  transition: all 0.4s ease;
+  overflow: hidden;
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.project-card-view::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(192, 132, 245, 0.1), transparent);
+  transition: left 0.6s;
+  z-index: 1;
+}
+
+.project-card-view:hover::before {
+  left: 100%;
+}
+
+.project-card-view:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 20px 50px rgba(192, 132, 245, 0.3);
+  border-color: #c084f5;
+}
+
+/* Project Image */
+.project-card-view .card-img-top {
+  height: 200px;
+  object-fit: cover;
+  transition: all 0.4s ease;
+  border-radius: 20px 20px 0 0;
+  position: relative;
+  z-index: 2;
+}
+
+.project-card-view:hover .card-img-top {
+  transform: scale(1.05);
+}
+
+/* Card Body */
+.project-card-view .card-body {
+  padding: 25px;
+  color: white;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 2;
+}
+
+/* Project Title */
+.project-card-view .card-title {
+  font-family: 'Rubik', sans-serif;
+  font-weight: 600;
+  font-size: 1.4rem;
+  margin-bottom: 15px;
+  background: linear-gradient(45deg, #c084f5, #8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: fadeInDown 0.8s ease-out 0.2s both;
+}
+
+/* Project Description */
+.project-card-view .card-text {
+  font-family: 'Rubik', sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #ccc;
+  margin-bottom: 20px;
+  flex-grow: 1;
+  animation: fadeIn 1s ease-out 0.4s both;
+}
+
+/* Button Container */
+.project-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: auto;
+  animation: fadeInUp 0.8s ease-out 0.6s both;
+}
+
+/* Enhanced Buttons */
+.project-btn {
+  background: linear-gradient(135deg, #c084f5, #8b5cf6);
+  border: none;
+  border-radius: 25px;
+  padding: 10px 20px;
+  font-family: 'Rubik', sans-serif;
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: white;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  flex: 1;
+  justify-content: center;
+  min-width: 100px;
+}
+
+.project-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.project-btn:hover::before {
+  left: 100%;
+}
+
+.project-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(192, 132, 245, 0.4);
+  background: linear-gradient(135deg, #d084f5, #9b5cf6);
+  color: white;
+  text-decoration: none;
+}
+
+.project-btn:active {
+  transform: translateY(0);
+}
+
+/* GitHub Button */
+.github-btn {
+  background: linear-gradient(135deg, #333, #555);
+}
+
+.github-btn:hover {
+  background: linear-gradient(135deg, #444, #666);
+  box-shadow: 0 8px 25px rgba(68, 68, 68, 0.4);
+}
+
+/* Demo Button */
+.demo-btn {
+  background: linear-gradient(135deg, #00b894, #00a085);
+}
+
+.demo-btn:hover {
+  background: linear-gradient(135deg, #00c9a7, #00b894);
+  box-shadow: 0 8px 25px rgba(0, 184, 148, 0.4);
+}
+
+/* Project Section Header */
+.project-section {
+  position: relative;
+  min-height: 100vh;
+  padding: 80px 0;
+}
+
+.project-heading {
+  text-align: center;
+  font-family: 'Rubik', sans-serif;
+  font-weight: 700;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  animation: fadeInDown 0.8s ease-out;
+}
+
+.project-description {
+  text-align: center;
+  font-family: 'Rubik', sans-serif;
+  font-size: 1.1rem;
+  color: #ccc;
+  margin-bottom: 50px;
+  animation: fadeIn 1s ease-out 0.2s both;
+}
+
+/* Projects Grid */
+.projects-grid {
+  animation: fadeInUp 0.8s ease-out 0.4s both;
+}
+
+/* Tag/Category badges */
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 15px;
+  animation: fadeIn 1s ease-out 0.5s both;
+}
+
+.project-tag {
+  background: linear-gradient(135deg, #21262d, #30363d);
+  color: #c9d1d9;
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-family: 'Rubik', sans-serif;
+  font-weight: 500;
+  border: 1px solid #30363d;
+}
+
+/* Loading Animation */
+.projects-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  animation: fadeIn 0.5s ease-in;
+}
+
+.projects-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #333;
+  border-top: 4px solid #c084f5;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Hover Effects for Icons */
+.project-btn svg {
+  transition: transform 0.3s ease;
+}
+
+.project-btn:hover svg {
+  transform: scale(1.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .project-card-view {
+    margin-bottom: 25px;
+  }
+
+  .project-card-view .card-img-top {
+    height: 180px;
+  }
+
+  .project-card-view .card-body {
+    padding: 20px;
+  }
+
+  .project-card-view .card-title {
+    font-size: 1.2rem;
+  }
+
+  .project-card-view .card-text {
+    font-size: 0.9rem;
+  }
+
+  .project-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .project-btn {
+    width: 100%;
+  }
+
+  .project-heading {
+    font-size: 2rem;
+  }
+
+  .project-description {
+    font-size: 1rem;
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .project-card-view .card-img-top {
+    height: 160px;
+  }
+
+  .project-card-view .card-body {
+    padding: 15px;
+  }
+
+  .project-heading {
+    font-size: 1.8rem;
+  }
+
+  .project-section {
+    padding: 60px 0;
+  }
+}
+
+/* Card Tilt Effect */
+.project-card-view {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.project-card-view:hover {
+  transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+}
+
+/* Glow Effect */
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+  50% {
+    box-shadow: 0 10px 30px rgba(192, 132, 245, 0.1);
+  }
+}
+
+.project-card-view {
+  animation: glow 6s ease-in-out infinite;
+}
+
+.project-card-view:hover {
+  animation: none;
+}
+
+/* Tech Stack Icons (if you want to add them) */
+.tech-stack {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  animation: fadeIn 1s ease-out 0.7s both;
+}
+
+.tech-icon {
+  width: 24px;
+  height: 24px;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.tech-icon:hover {
+  opacity: 1;
+}
+
+/* Project Status Badge */
+.project-status {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: linear-gradient(135deg, #00b894, #00a085);
+  color: white;
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 10px;
+  font-family: 'Rubik', sans-serif;
+  font-weight: 500;
+  z-index: 3;
+  animation: pulse 2s infinite;
+  box-shadow: 0 2px 8px rgba(0, 184, 148, 0.3);
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
